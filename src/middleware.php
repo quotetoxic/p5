@@ -40,13 +40,14 @@ $app->add(new \Slim\Middleware\JwtAuthentication([
    }
 ]));
 
-// $app->add(new \Slim\Middleware\HttpBasicAuthentication([
-//    "path" => "/api/token",
-//    "secure" => true,
-//    "users" => [
-//        "user" => "password"
-//    ]
-// ]));
+$app->add(new \Slim\Middleware\HttpBasicAuthentication([
+    "path" => "/secure",
+    "secure" => true,
+    "users" => [
+        "root" => "t00r",
+        "somebody" => "passw0rd"
+    ]
+]));
 
 
 $app->add(new \Tuupola\Middleware\Cors([
