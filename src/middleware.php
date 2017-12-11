@@ -25,7 +25,7 @@ $app->add(new \Slim\Middleware\JwtAuthentication([
    "rules" => [
        new \Slim\Middleware\JwtAuthentication\RequestPathRule([
            "path" => "/",
-           "passthrough" => ["/register", "/not-secure", "/verify"]
+           "passthrough" => ["/register", "/not-secure", "/verify", "/login"]
        ])
    ],
    "callback" => function ($request, $response, $arguments) use ($container) {
