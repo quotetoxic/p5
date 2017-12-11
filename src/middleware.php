@@ -26,10 +26,7 @@ $app->add(new \Slim\Middleware\JwtAuthentication([
        new \Slim\Middleware\JwtAuthentication\RequestPathRule([
            "path" => "/",
            "passthrough" => ["/register", "/not-secure", "/home"]
-       ]),
-       new \Slim\Middleware\JwtAuthentication\RequestMethodRule([
-           "passthrough" => ["OPTIONS"]
-       ]),
+       ])
    ],
    "callback" => function ($request, $response, $arguments) use ($container) {
        $container["jwt"] = $arguments["decoded"];
@@ -43,13 +40,13 @@ $app->add(new \Slim\Middleware\JwtAuthentication([
    }
 ]));
 
-$app->add(new \Slim\Middleware\HttpBasicAuthentication([
-   "path" => "/api/token",
-   "secure" => true,
-   "users" => [
-       "user" => "password"
-   ]
-]));
+// $app->add(new \Slim\Middleware\HttpBasicAuthentication([
+//    "path" => "/api/token",
+//    "secure" => true,
+//    "users" => [
+//        "user" => "password"
+//    ]
+// ]));
 
 
 $app->add(new \Tuupola\Middleware\Cors([
