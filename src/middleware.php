@@ -42,7 +42,7 @@ $app->add(new \Slim\Middleware\JwtAuthentication([
 
 $app->add(new \Slim\Middleware\HttpBasicAuthentication([
     "path" => "/secure",
-    "secure" => true,
+    "secure" => false,
     "users" => [
         "root" => "t00r",
         "somebody" => "passw0rd"
