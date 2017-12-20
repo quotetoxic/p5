@@ -15,7 +15,12 @@ openssl_pkey_export($keys, $privateKey);
 
 // Extraction of the public key to the $publicKey variable
 $publicKey = openssl_pkey_get_details($keys);
-
+$publicKey = $publicKey['key'];
+echo("Public key:\n");
+echo $publicKey;
+echo("\nPrivate key:\n");
+echo $privateKey['key'];
+echo("\n");
 $data = 'hello';
 
 // Encrypt the data to $encrypted using the public key
