@@ -11,23 +11,14 @@ $keysConfig = array(
 $keys = openssl_pkey_new($config); 
 
 //Extraction of the private key to the $privateKey variable
-openssl_pkey_export($keys, $privateKey); 
+openssl_pkey_export($keys, $privateKey);
 
 // Extraction of the public key to the $publicKey variable
 $publicKey = openssl_pkey_get_details($keys);
 $publicKey = $publicKey['key'];
-echo("Public key:\n\n");
-echo $publicKey;
-echo("\n\nPrivate key:\n\n");
-echo $privateKey['key'];
-echo("\n\n");
-$data = 'hello';
 
-// Encrypt the data to $encrypted using the public key
-openssl_public_encrypt($data, $encrypted, $publicKey);
-echo base64_encode($encrypted);
+// Encryption of the secret to the $encryptedSecret using the public key
+openssl_public_encrypt($data, $encryptedSecret, $publicKey);
 
-// Decrypt the data using the private key and store the results in $decrypted
-openssl_private_decrypt($encrypted, $decrypted, $privateKey);
-
-echo $decrypted;
+// Decryption of the secret to the $decryptedSecret using the private key
+openssl_private_decrypt($encrypted, $decryptedSecret, $privateKey);
