@@ -1,29 +1,27 @@
 <?php
 
-$config = array(
-    "digest_alg" => "sha512",
+// Configuration for the RSA keys
+$keysConfig = array(
     "private_key_bits" => 2048,
     "private_key_type" => OPENSSL_KEYTYPE_RSA,
 );
-    
-// Create the private and public key
-$res = openssl_pkey_new($config);
 
-// Extract the private key from $res to $privKey
-openssl_pkey_export($res, $privKey);
+//Keys generation
+$keys = openssl_pkey_new($config); 
 
-// Extract the public key from $res to $pubKey
-$pubKey = openssl_pkey_get_details($res);
-$pubKey = $pubKey["key"];
+//Extraction of the private key to the $privateKey variable
+openssl_pkey_export($keys, $privateKey); 
 
-$data = 'plaintext data goes here';
-echo $data;
+// Extraction of the public key to the $publicKey variable
+$publicKey = openssl_pkey_get_details($keys);
+
+$data = 'hello';
 
 // Encrypt the data to $encrypted using the public key
-openssl_public_encrypt($data, $encrypted, $pubKey);
+openssl_public_encrypt($data, $encrypted, $publicKey);
 echo base64_encode($encrypted);
 
 // Decrypt the data using the private key and store the results in $decrypted
-openssl_private_decrypt($encrypted, $decrypted, $privKey);
+openssl_private_decrypt($encrypted, $decrypted, $privateKey);
 
 echo $decrypted;
