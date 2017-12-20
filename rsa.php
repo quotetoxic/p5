@@ -2,7 +2,7 @@
 
 $config = array(
     "digest_alg" => "sha512",
-    "private_key_bits" => 4096,
+    "private_key_bits" => 2048,
     "private_key_type" => OPENSSL_KEYTYPE_RSA,
 );
     
@@ -17,6 +17,7 @@ $pubKey = openssl_pkey_get_details($res);
 $pubKey = $pubKey["key"];
 
 $data = 'plaintext data goes here';
+echo $data;
 
 // Encrypt the data to $encrypted using the public key
 openssl_public_encrypt($data, $encrypted, $pubKey);
