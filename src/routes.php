@@ -11,7 +11,7 @@ $app->post("/login",  function ($request, $response, $args) use ($container){
   	$requested_scopes = $request->getParsedBody() ?: [];
  
     $now = new DateTime();
-    $future = new DateTime("+10 minutes");
+    $future = new DateTime("+1 day");
     $server = $request->getServerParams();
     $jti = (new Base62)->encode(random_bytes(16));
     $payload = [
@@ -20,7 +20,7 @@ $app->post("/login",  function ($request, $response, $args) use ($container){
         "jti" => $jti,
         "sub" => $server["PHP_AUTH_USER"]
     ];
-    $secret = "123456789helo_secret";
+    $secret = "tHaT1_2iS_tHe3_4MoSt_HaRd5_6SeCrEt7_8To_9GuEsS_P5";
     $token = JWT::encode($payload, $secret, "HS256");
     $data["token"] = $token;
     $data["expires"] = $future->getTimeStamp();

@@ -20,12 +20,11 @@ $container["jwt"] = function ($container) {
 
 $app->add(new \Slim\Middleware\JwtAuthentication([
 "path" => "/",
-   "logger" => $container['logger'],
-   "secret" => "123456789helo_secret",
+   "secret" => "tHaT1_2iS_tHe3_4MoSt_HaRd5_6SeCrEt7_8To_GuEsS9_10P5",
    "rules" => [
        new \Slim\Middleware\JwtAuthentication\RequestPathRule([
            "path" => "/",
-           "passthrough" => ["/register", "/not-secure", "/verify", "/login"]
+           "passthrough" => ["/register", "/recover", "/verify", "/login"]
        ]),
        new \Slim\Middleware\JwtAuthentication\RequestMethodRule([
         "passthrough" => ["OPTIONS"]
