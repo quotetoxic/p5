@@ -21,8 +21,6 @@ $data = 'plaintext data goes here';
 // Encrypt the data to $encrypted using the public key
 openssl_public_encrypt($data, $encrypted, $pubKey);
 
-echo($encrypted);
-
 // Decrypt the data using the private key and store the results in $decrypted
 openssl_private_decrypt($encrypted, $decrypted, $privKey);
 
