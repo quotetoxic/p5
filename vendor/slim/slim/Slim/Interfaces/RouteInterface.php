@@ -1,9 +1,9 @@
 <?php
 /**
- * Slim Framework (https://slimframework.com)
+ * Slim Framework (http://slimframework.com)
  *
  * @link      https://github.com/slimphp/Slim
- * @copyright Copyright (c) 2011-2017 Josh Lockhart
+ * @copyright Copyright (c) 2011-2016 Josh Lockhart
  * @license   https://github.com/slimphp/Slim/blob/3.x/LICENSE.md (MIT License)
  */
 namespace Slim\Interfaces;
@@ -25,16 +25,16 @@ interface RouteInterface
      * Retrieve a specific route argument
      *
      * @param string $name
-     * @param string|null $default
+     * @param mixed $default
      *
-     * @return string|null
+     * @return mixed
      */
     public function getArgument($name, $default = null);
 
     /**
      * Get route arguments
      *
-     * @return string[]
+     * @return array
      */
     public function getArguments();
 
@@ -58,29 +58,18 @@ interface RouteInterface
      * @param string $name
      * @param string $value
      *
-     * @return self
+     * @return static
      */
     public function setArgument($name, $value);
 
     /**
      * Replace route arguments
      *
-     * @param string[] $arguments
+     * @param array $arguments
      *
-     * @return self
+     * @return static
      */
     public function setArguments(array $arguments);
-
-    /**
-     * Set output buffering mode
-     *
-     * One of: false, 'prepend' or 'append'
-     *
-     * @param boolean|string $mode
-     *
-     * @throws InvalidArgumentException If an unknown buffering mode is specified
-     */
-    public function setOutputBuffering($mode);
 
     /**
      * Set route name

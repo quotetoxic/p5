@@ -1,14 +1,14 @@
 <?php
 /**
- * Slim Framework (https://slimframework.com)
+ * Slim Framework (http://slimframework.com)
  *
  * @link      https://github.com/slimphp/Slim
- * @copyright Copyright (c) 2011-2017 Josh Lockhart
+ * @copyright Copyright (c) 2011-2016 Josh Lockhart
  * @license   https://github.com/slimphp/Slim/blob/3.x/LICENSE.md (MIT License)
  */
 namespace Slim;
 
-use Psr\Container\ContainerInterface;
+use Interop\Container\ContainerInterface;
 
 /**
  * A routable, middleware-aware object
@@ -19,7 +19,7 @@ use Psr\Container\ContainerInterface;
 abstract class Routable
 {
     use CallableResolverAwareTrait;
-
+    
     /**
      * Route callable
      *
@@ -93,11 +93,11 @@ abstract class Routable
         $this->middleware[] = new DeferredCallable($callable, $this->container);
         return $this;
     }
-
+    
     /**
      * Set the route pattern
      *
-     * @param string $newPattern
+     * @set string
      */
     public function setPattern($newPattern)
     {

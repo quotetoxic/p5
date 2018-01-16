@@ -1,9 +1,9 @@
 <?php
 /**
- * Slim Framework (https://slimframework.com)
+ * Slim Framework (http://slimframework.com)
  *
  * @link      https://github.com/slimphp/Slim
- * @copyright Copyright (c) 2011-2017 Josh Lockhart
+ * @copyright Copyright (c) 2011-2016 Josh Lockhart
  * @license   https://github.com/slimphp/Slim/blob/3.x/LICENSE.md (MIT License)
  */
 namespace Slim\Handlers;
@@ -36,7 +36,7 @@ class NotAllowed extends AbstractHandler
         if ($request->getMethod() === 'OPTIONS') {
             $status = 200;
             $contentType = 'text/plain';
-            $output = $this->renderPlainOptionsMessage($methods);
+            $output = $this->renderPlainNotAllowedMessage($methods);
         } else {
             $status = 405;
             $contentType = $this->determineContentType($request);
@@ -70,12 +70,12 @@ class NotAllowed extends AbstractHandler
     }
 
     /**
-     * Render PLAIN message for OPTIONS response
+     * Render PLAIN not allowed message
      *
      * @param  array                  $methods
      * @return string
      */
-    protected function renderPlainOptionsMessage($methods)
+    protected function renderPlainNotAllowedMessage($methods)
     {
         $allow = implode(', ', $methods);
 

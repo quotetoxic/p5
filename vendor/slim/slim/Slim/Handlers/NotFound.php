@@ -1,9 +1,9 @@
 <?php
 /**
- * Slim Framework (https://slimframework.com)
+ * Slim Framework (http://slimframework.com)
  *
  * @link      https://github.com/slimphp/Slim
- * @copyright Copyright (c) 2011-2017 Josh Lockhart
+ * @copyright Copyright (c) 2011-2016 Josh Lockhart
  * @license   https://github.com/slimphp/Slim/blob/3.x/LICENSE.md (MIT License)
  */
 namespace Slim\Handlers;
@@ -32,28 +32,23 @@ class NotFound extends AbstractHandler
      */
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response)
     {
-        if ($request->getMethod() === 'OPTIONS') {
-            $contentType = 'text/plain';
-            $output = $this->renderPlainNotFoundOutput();
-        } else {
-            $contentType = $this->determineContentType($request);
-            switch ($contentType) {
-                case 'application/json':
-                    $output = $this->renderJsonNotFoundOutput();
-                    break;
+        $contentType = $this->determineContentType($request);
+        switch ($contentType) {
+            case 'application/json':
+                $output = $this->renderJsonNotFoundOutput();
+                break;
 
-                case 'text/xml':
-                case 'application/xml':
-                    $output = $this->renderXmlNotFoundOutput();
-                    break;
+            case 'text/xml':
+            case 'application/xml':
+                $output = $this->renderXmlNotFoundOutput();
+                break;
 
-                case 'text/html':
-                    $output = $this->renderHtmlNotFoundOutput($request);
-                    break;
-
-                default:
-                    throw new UnexpectedValueException('Cannot render unknown content type ' . $contentType);
-            }
+            case 'text/html':
+                $output = $this->renderHtmlNotFoundOutput($request);
+                break;
+            
+            default:
+                throw new UnexpectedValueException('Cannot render unknown content type ' . $contentType);
         }
 
         $body = new Body(fopen('php://temp', 'r+'));
@@ -62,16 +57,6 @@ class NotFound extends AbstractHandler
         return $response->withStatus(404)
                         ->withHeader('Content-Type', $contentType)
                         ->withBody($body);
-    }
-
-    /**
-     * Render plain not found message
-     *
-     * @return ResponseInterface
-     */
-    protected function renderPlainNotFoundOutput()
-    {
-        return 'Not found';
     }
 
     /**

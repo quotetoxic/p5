@@ -1,9 +1,9 @@
 <?php
 /**
- * Slim Framework (https://slimframework.com)
+ * Slim Framework (http://slimframework.com)
  *
  * @link      https://github.com/slimphp/Slim
- * @copyright Copyright (c) 2011-2017 Josh Lockhart
+ * @copyright Copyright (c) 2011-2016 Josh Lockhart
  * @license   https://github.com/slimphp/Slim/blob/3.x/LICENSE.md (MIT License)
  */
 namespace Slim;
@@ -91,14 +91,8 @@ class DefaultServicesProvider
                 if (isset($container->get('settings')['routerCacheFile'])) {
                     $routerCacheFile = $container->get('settings')['routerCacheFile'];
                 }
-
-
-                $router = (new Router)->setCacheFile($routerCacheFile);
-                if (method_exists($router, 'setContainer')) {
-                    $router->setContainer($container);
-                }
-
-                return $router;
+                
+                return (new Router)->setCacheFile($routerCacheFile);
             };
         }
 
@@ -152,10 +146,7 @@ class DefaultServicesProvider
              * @return callable
              */
             $container['errorHandler'] = function ($container) {
-                return new Error(
-                    $container->get('settings')['displayErrorDetails'],
-                    $container->get('settings')['outputBuffering']
-                );
+                return new Error($container->get('settings')['displayErrorDetails']);
             };
         }
 

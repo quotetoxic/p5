@@ -1,9 +1,9 @@
 <?php
 /**
- * Slim Framework (https://slimframework.com)
+ * Slim Framework (http://slimframework.com)
  *
  * @link      https://github.com/slimphp/Slim
- * @copyright Copyright (c) 2011-2017 Josh Lockhart
+ * @copyright Copyright (c) 2011-2016 Josh Lockhart
  * @license   https://github.com/slimphp/Slim/blob/3.x/LICENSE.md (MIT License)
  */
 namespace Slim\Handlers;
@@ -47,7 +47,7 @@ class Error extends AbstractError
             case 'text/html':
                 $output = $this->renderHtmlErrorMessage($exception);
                 break;
-
+            
             default:
                 throw new UnexpectedValueException('Cannot render unknown content type ' . $contentType);
         }
@@ -55,19 +55,7 @@ class Error extends AbstractError
         $this->writeToErrorLog($exception);
 
         $body = new Body(fopen('php://temp', 'r+'));
-
-        if ($this->outputBuffering === 'prepend') {
-            // prepend output buffer content
-            $body->write(ob_get_clean() . $output);
-        } elseif ($this->outputBuffering === 'append') {
-            // append output buffer content
-            $body->write($output . ob_get_clean());
-        } else {
-            // outputBuffering is false or some other unknown setting
-            // delete anything in the output buffer.
-            ob_get_clean();
-            $body->write($output);
-        }
+        $body->write($output);
 
         return $response
                 ->withStatus(500)
@@ -93,7 +81,7 @@ class Error extends AbstractError
 
             while ($exception = $exception->getPrevious()) {
                 $html .= '<h2>Previous exception</h2>';
-                $html .= $this->renderHtmlExceptionOrError($exception);
+                $html .= $this->renderHtmlException($exception);
             }
         } else {
             $html = '<p>A website error has occurred. Sorry for the temporary inconvenience.</p>';
@@ -115,30 +103,12 @@ class Error extends AbstractError
     /**
      * Render exception as HTML.
      *
-     * Provided for backwards compatibility; use renderHtmlExceptionOrError().
-     *
      * @param \Exception $exception
      *
      * @return string
      */
     protected function renderHtmlException(\Exception $exception)
     {
-        return $this->renderHtmlExceptionOrError($exception);
-    }
-
-    /**
-     * Render exception or error as HTML.
-     *
-     * @param \Exception|\Error $exception
-     *
-     * @return string
-     */
-    protected function renderHtmlExceptionOrError($exception)
-    {
-        if (!$exception instanceof \Exception && !$exception instanceof \Error) {
-            throw new \RuntimeException("Unexpected type. Expected Exception or Error.");
-        }
-
         $html = sprintf('<div><strong>Type:</strong> %s</div>', get_class($exception));
 
         if (($code = $exception->getCode())) {

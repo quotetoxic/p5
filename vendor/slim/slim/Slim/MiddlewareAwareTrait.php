@@ -1,14 +1,16 @@
 <?php
 /**
- * Slim Framework (https://slimframework.com)
+ * Slim Framework (http://slimframework.com)
  *
  * @link      https://github.com/slimphp/Slim
- * @copyright Copyright (c) 2011-2017 Josh Lockhart
+ * @copyright Copyright (c) 2011-2016 Josh Lockhart
  * @license   https://github.com/slimphp/Slim/blob/3.x/LICENSE.md (MIT License)
  */
 namespace Slim;
 
 use RuntimeException;
+use SplStack;
+use SplDoublyLinkedList;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use UnexpectedValueException;
@@ -23,11 +25,12 @@ use UnexpectedValueException;
 trait MiddlewareAwareTrait
 {
     /**
-     * Tip of the middleware call stack
+     * Middleware call stack
      *
-     * @var callable
+     * @var  \SplStack
+     * @link http://php.net/manual/class.splstack.php
      */
-    protected $tip;
+    protected $stack;
 
     /**
      * Middleware stack lock
@@ -56,18 +59,12 @@ trait MiddlewareAwareTrait
             throw new RuntimeException('Middleware can’t be added once the stack is dequeuing');
         }
 
-        if (is_null($this->tip)) {
+        if (is_null($this->stack)) {
             $this->seedMiddlewareStack();
         }
-        $next = $this->tip;
-        $this->tip = function (
-            ServerRequestInterface $request,
-            ResponseInterface $response
-        ) use (
-            $callable,
-            $next
-        ) {
-            $result = call_user_func($callable, $request, $response, $next);
+        $next = $this->stack->top();
+        $this->stack[] = function (ServerRequestInterface $req, ResponseInterface $res) use ($callable, $next) {
+            $result = call_user_func($callable, $req, $res, $next);
             if ($result instanceof ResponseInterface === false) {
                 throw new UnexpectedValueException(
                     'Middleware must return instance of \Psr\Http\Message\ResponseInterface'
@@ -89,33 +86,35 @@ trait MiddlewareAwareTrait
      */
     protected function seedMiddlewareStack(callable $kernel = null)
     {
-        if (!is_null($this->tip)) {
+        if (!is_null($this->stack)) {
             throw new RuntimeException('MiddlewareStack can only be seeded once.');
         }
         if ($kernel === null) {
             $kernel = $this;
         }
-        $this->tip = $kernel;
+        $this->stack = new SplStack;
+        $this->stack->setIteratorMode(SplDoublyLinkedList::IT_MODE_LIFO | SplDoublyLinkedList::IT_MODE_KEEP);
+        $this->stack[] = $kernel;
     }
 
     /**
      * Call middleware stack
      *
-     * @param  ServerRequestInterface $request A request object
-     * @param  ResponseInterface      $response A response object
+     * @param  ServerRequestInterface $req A request object
+     * @param  ResponseInterface      $res A response object
      *
      * @return ResponseInterface
      */
-    public function callMiddlewareStack(ServerRequestInterface $request, ResponseInterface $response)
+    public function callMiddlewareStack(ServerRequestInterface $req, ResponseInterface $res)
     {
-        if (is_null($this->tip)) {
+        if (is_null($this->stack)) {
             $this->seedMiddlewareStack();
         }
         /** @var callable $start */
-        $start = $this->tip;
+        $start = $this->stack->top();
         $this->middlewareLock = true;
-        $response = $start($request, $response);
+        $resp = $start($req, $res);
         $this->middlewareLock = false;
-        return $response;
+        return $resp;
     }
 }
