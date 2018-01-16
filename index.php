@@ -46,7 +46,7 @@ $app = new \Slim\App($c);
 	// });
 
     //CREATE NEW ORDER
-	$app->get('/login', function ($request, $response) use ($app) {
+	$app->get('/login', function () use ($app) {
 		require_once 'dbconnect.php';
 		
 		echo 'login';
