@@ -1,4 +1,5 @@
 <?php
+echo 'hello';
 error_reporting(E_ALL);
 date_default_timezone_set('Europe/Copenhagen');
 
@@ -51,7 +52,6 @@ $app = new \Slim\App($c);
         if (!isBarEnabled($mysqli)) {
         	$error = "Bar is not accepting orders online!";
         	return $this->response->withStatus(403)->withHeader('Content-type', 'application/json')->withJson(array('error' => $error));
-        	break;
         }
 
 		$json = $request->getBody();
@@ -60,13 +60,11 @@ $app = new \Slim\App($c);
         if (!isset($data)) {
         	$error = "There is mistake in your request body!";
         	return $this->response->withStatus(403)->withHeader('Content-type', 'application/json')->withJson(array('error' => $error));
-        	break;
         }
 
         if (!isset($data['items']) || sizeof($data['items']) == 0) {
         	$error = "There are no items in the order!";
 			return $this->response->withStatus(403)->withHeader('Content-type', 'application/json')->withJson(array('error' => $error));
-        	break;
         }
 
         foreach ($data['items'] as $item) {
@@ -80,7 +78,6 @@ $app = new \Slim\App($c);
     		if ($row['is_deleted'] == 1 || $row['available'] == 0){
     			if (in_array($row['id'], $ids)){
     				return $this->response->withStatus(400)->withHeader('Content-Type', 'text/html')->write('One of the products is deleted or unavailable!');
-        			break 2;
     			}
     		}
 			$prod_id = (string) $row['id'];
