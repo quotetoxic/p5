@@ -35,7 +35,7 @@ $app->post('/login', function (Request $request, Response $response, array $args
             return $this->response->withStatus(403)->withHeader('Content-type', 'application/json')->withJson(array('error' => $error));
         } else {
             unset($user['pass']);
-            $exp = intval(time());
+            $exp = intval(time()) + (60*60*24);
             $jwtPayload = [      
                 "hash" => $user['hash'],
                 "email" => $user['email'],
