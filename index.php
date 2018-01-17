@@ -1,1 +1,3 @@
-Welcome to P5 project!
+<?php
+
+echo 'Welcome to P5 project!';
