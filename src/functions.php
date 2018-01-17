@@ -1,5 +1,8 @@
 <?php
 
+//Setting the secret key
+$secret_key = 'MegaP5SuperSecretChatTelegam!KeyAASDSxsknlnkendksjxanQWDSA#203-04JAX';
+
 function createJWT($payload) {
     // base64 encodes the header json
     $encoded_header = base64_encode('{"alg": "HS256","typ": "JWT"}');
@@ -9,9 +12,6 @@ function createJWT($payload) {
 
     // base64 strings are concatenated to one that looks like this
     $header_payload = $encoded_header . '.' . $encoded_payload;
-
-    //Setting the secret key
-    $secret_key = 'MegaP5SuperSecretChatTelegam!KeyAASDSxsknlnkendksjxanQWDSA#203-04JAX';
 
     // Creating the signature, a hash with the s256 algorithm and the secret key. The signature is also base64 encoded.
     $signature = base64_encode(hash_hmac('sha256', $header_payload, $secret_key, true));
@@ -25,8 +25,6 @@ function createJWT($payload) {
 
 function isJWTok($jwt) {
     $recievedJwt = $jwt;
-
-    $secret_key = 'MegaP5SuperSecretChatTelegam!KeyAASDSxsknlnkendksjxanQWDSA#203-04JAX';
 
     // Split a string by '.' 
     $jwt_values = explode('.', $recievedJwt);
