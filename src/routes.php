@@ -35,7 +35,6 @@ $app->post('/login', function (Request $request, Response $response, array $args
             "email" => $user['email'],
             "exp" => $exp
               ];
-        echo base64_encode($jwtPayload);
         $user['jwt'] = createJWT($jwtPayload);
         return json_encode($user);
     }

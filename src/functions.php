@@ -5,7 +5,7 @@ function createJWT($payload) {
     $encoded_header = base64_encode('{"alg": "HS256","typ": "JWT"}');
 
     // base64 encodes the payload json
-    $encoded_payload = base64_encode($payload);
+    $encoded_payload = base64_encode(json_encode($payload));
 
     // base64 strings are concatenated to one that looks like this
     $header_payload = $encoded_header . '.' . $encoded_payload;
