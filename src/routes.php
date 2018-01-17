@@ -11,16 +11,25 @@ $app->post('/login', function (Request $request, Response $response, array $args
     $data = $request->getParsedBody();
 
     if (!isset($data['email']) || !isset($data['passwd'])) {
-        $error = "There is mistake in your request body!";
+        $error = "There is mistake in your request!";
         return $this->response->withStatus(403)->withHeader('Content-type', 'application/json')->withJson(array('error' => $error));
     }
 
     if ($data['email']=="" || $data['passwd']=="") {
-        $error = "There is mistake in your request body!";
+        $error = "There is mistake in your request!";
         return $this->response->withStatus(403)->withHeader('Content-type', 'application/json')->withJson(array('error' => $error));
     }
 
-    return json_encode([$parsedBody['email']=>$parsedBody['passwd']]);
+    require_once 'dbconnect.php';
+    $query = 'SELECT * FROM users WHERE email='.$data['email'].' AND pass='.$data['passwd'].'';
+    $result = $mysqli->query($query);
+
+    if ($result) {
+        return json_encode(['logged'=>'in']);
+    } else {
+        $error = "Incorrect login/password! Please, try again...";
+        return $this->response->withStatus(403)->withHeader('Content-type', 'application/json')->withJson(array('error' => $error));
+    }
 });
 
 $app->post('/register', function (Request $request, Response $response, array $args) {
