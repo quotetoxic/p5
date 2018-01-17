@@ -40,10 +40,10 @@ function isJWTok($jwt) {
     //check exp param
     $payload = json_decode(base64_decode($jwt_values[1]),true);
     if (intval($payload['exp']) <= intval(time())) {
-        echo "time is ok";
+        echo 'time is ok';
         $isExpOK = true;
     } else {
-        echo "token expired";
+        echo 'token expired';
         $isExpOK = false;
     }
 
