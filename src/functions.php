@@ -68,7 +68,8 @@ function isAuthorised($request) {
         $headerParts = explode(" ", $headerValue);
         if ($headerParts[0]=="Bearer") {
             $jwt = $headerParts[1];
-            if ($result = isJWTok($jwt)) {
+            $result = isJWTok($jwt);
+            if ($result == true) {
                 return true;
             } else {
                 return $result;
