@@ -29,6 +29,7 @@ $app->post('/login', function (Request $request, Response $response, array $args
         return $this->response->withStatus(403)->withHeader('Content-type', 'application/json')->withJson(array('error' => $error));
     } else {
         $user = $result->fetch_assoc();
+        unset($user['pass']);
         $exp = time() + (60 * 60 * 24);
         $jwtPayload = [      
             "hash" => $user['hash'],
