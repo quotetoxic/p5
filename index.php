@@ -3,6 +3,8 @@
 error_reporting(E_ALL);
 date_default_timezone_set('Europe/Copenhagen');
 
+echo 'file loaded\n\n';
+
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 
@@ -12,6 +14,8 @@ $c = new \Slim\Container();
 $c['foundHandler'] = function() {return new \Slim\Handlers\Strategies\RequestResponseArgs();};
 
 $app = new \Slim\App($c);
+
+echo json_encode($app);
 
     // //GETTING ALL PRODUCTS
 	// $app->get('/products', function () use ($app) {
