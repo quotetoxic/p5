@@ -24,7 +24,7 @@ $app->post('/login', function (Request $request, Response $response, array $args
     $query = 'SELECT * FROM users WHERE email="'.$data['email'].'" AND pass="'.$data['passwd'].'"';
     $result = $mysqli->query($query);
 
-    if ($result) {
+    if ($result->num_rows === 0) {
         return json_encode(['logged'=>'in']);
     } else {
         $error = "Incorrect login/password! Please, try again...";
