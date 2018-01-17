@@ -10,7 +10,7 @@ include 'functions.php';
 $app->post('/login', function (Request $request, Response $response, array $args) {
     $parsedBody = $request->getParsedBody();
     // Render index view
-    return json_encode($parsedBody);
+    return json_encode(['test'=>$parsedBody['email']]);
 });
 
 $app->post('/register', function (Request $request, Response $response, array $args) {
