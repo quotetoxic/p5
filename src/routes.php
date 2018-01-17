@@ -28,9 +28,9 @@ $app->post('/forgotPasswd', function (Request $request, Response $response, arra
 $app->post('/checkUser', function (Request $request, Response $response, array $args) {
     if ($request->hasHeader('Authorization')) {
         // Do something
-        return 'check token';
+        return json_decode(['check token'=>'needed']);
     } else {
-        return 'token required';
+        return json_decode(['token required'=>'error']);
     }
     // Render index view
 
