@@ -50,11 +50,9 @@ function isJWTok($jwt) {
 
     // checking if the created signature is equal to the received signature
     if($resultedsignature == $recieved_signature) {
-        if ($isExpOK) {
-            echo 'exp is ok';
+        if ($isExpOK == true) {
             return true;
         } else {
-            echo 'exp is not ok';
             return "Access token expired! Please, login again!";
         }
     } else {
