@@ -39,7 +39,7 @@ function isJWTok($jwt) {
 
     //check exp param
     $payload = json_decode(base64_decode($jwt_values[1]));
-    if (parseInt($payload['exp']) < time()) {
+    if (intval($payload['exp']) < time()) {
         $isExpOK = true;
     } else {
         $isExpOK = false;
