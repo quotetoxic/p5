@@ -29,6 +29,12 @@ $app->post('/login', function (Request $request, Response $response, array $args
         return $this->response->withStatus(403)->withHeader('Content-type', 'application/json')->withJson(array('error' => $error));
     } else {
         $user = $result->fetch_assoc();
+
+        if($user['is_active'] == 0) {
+            $error = "Please, verify your email first!";
+            return $this->response->withStatus(403)->withHeader('Content-type', 'application/json')->withJson(array('error' => $error));
+        } else {
+
         unset($user['pass']);
         $exp = time() + (60 * 60 * 24);
         $jwtPayload = [      
@@ -38,6 +44,7 @@ $app->post('/login', function (Request $request, Response $response, array $args
               ];
         $user['jwt'] = createJWT($jwtPayload);
         return json_encode($user);
+        }
     }
 });
 
