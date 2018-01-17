@@ -3,6 +3,8 @@
 use Slim\Http\Request;
 use Slim\Http\Response;
 
+include 'functions.php';
+
 // Routes
 
 $app->post('/login', function (Request $request, Response $response, array $args) {
@@ -24,9 +26,14 @@ $app->post('/forgotPasswd', function (Request $request, Response $response, arra
 });
 
 $app->post('/checkUser', function (Request $request, Response $response, array $args) {
-
+    if ($request->hasHeader('Authorization:')) {
+        // Do something
+        return 'check token';
+    } else {
+        return 'token required';
+    }
     // Render index view
-    return 'checkUser';
+
 });
 
 $app->post('/getKey', function (Request $request, Response $response, array $args) {
