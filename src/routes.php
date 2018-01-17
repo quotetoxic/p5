@@ -61,7 +61,7 @@ $app->post('/forgotPasswd', function (Request $request, Response $response, arra
 
 $app->post('/checkUser', function (Request $request, Response $response, array $args) {
     if ($result = isAuthorised($request)) {
-        
+        echo "Token ok";
     } else {
         $error = $result;
         return $this->response->withStatus(403)->withHeader('Content-type', 'application/json')->withJson(array('error' => $error));
