@@ -8,9 +8,9 @@ include 'functions.php';
 // Routes
 
 $app->post('/login', function (Request $request, Response $response, array $args) {
-
+    $parsedBody = $request->getParsedBody();
     // Render index view
-    return 'login';
+    return json_encode($parsedBody);
 });
 
 $app->post('/register', function (Request $request, Response $response, array $args) {
