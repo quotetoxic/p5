@@ -21,7 +21,7 @@ $app->post('/login', function (Request $request, Response $response, array $args
     }
 
     require_once 'dbconnect.php';
-    $query = 'SELECT * FROM users WHERE email='.$data['email'].' AND pass='.$data['passwd'].'';
+    $query = 'SELECT * FROM users WHERE email="'.$data['email'].'" AND pass="'.$data['passwd'].'"';
     $result = $mysqli->query($query);
 
     if ($result) {
