@@ -28,7 +28,14 @@ $app->post('/login', function (Request $request, Response $response, array $args
         $error = "Incorrect login/password! Please, try again...";
         return $this->response->withStatus(403)->withHeader('Content-type', 'application/json')->withJson(array('error' => $error));
     } else {
-        return json_encode(['logged'=>'in']);
+        $user = $result->fetch_all();
+        $jwtPayload = [      
+            "hash" => $user['hash'],
+            "email" => $user['email'],
+            "exp" => (time() + (60 * 60 * 24))
+              ];
+        $user['jwt'] = createJWT($jwtPayload);
+        return json_encode($user);
     }
 });
 
