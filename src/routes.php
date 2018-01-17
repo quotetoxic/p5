@@ -30,12 +30,12 @@ $app->post('/login', function (Request $request, Response $response, array $args
     } else {
         $user = $result->fetch_assoc();
         $exp = time() + (60 * 60 * 24);
-        echo $exp;
         $jwtPayload = [      
             "hash" => $user['hash'],
             "email" => $user['email'],
             "exp" => $exp
               ];
+        echo base64_encode($jwtPayload);
         $user['jwt'] = createJWT($jwtPayload);
         return json_encode($user);
     }
