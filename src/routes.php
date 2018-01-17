@@ -8,9 +8,19 @@ include 'functions.php';
 // Routes
 
 $app->post('/login', function (Request $request, Response $response, array $args) {
-    $parsedBody = $request->getParsedBody();
-    // Render index view
-    return json_encode(['test'=>$parsedBody['email']]);
+    $data = $request->getParsedBody();
+
+    if (!isset($data['email']) || !isset($data['passwd'])) {
+        $error = "There is mistake in your request body!";
+        return $this->response->withStatus(403)->withHeader('Content-type', 'application/json')->withJson(array('error' => $error));
+    }
+
+    if ($data['email']=="" || $data['passwd']=="") {
+        $error = "There is mistake in your request body!";
+        return $this->response->withStatus(403)->withHeader('Content-type', 'application/json')->withJson(array('error' => $error));
+    }
+
+    return json_encode([$parsedBody['email']=>$parsedBody['passwd']]);
 });
 
 $app->post('/register', function (Request $request, Response $response, array $args) {
