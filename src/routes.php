@@ -34,16 +34,15 @@ $app->post('/login', function (Request $request, Response $response, array $args
             $error = "Please, verify your email first!";
             return $this->response->withStatus(403)->withHeader('Content-type', 'application/json')->withJson(array('error' => $error));
         } else {
-
-        unset($user['pass']);
-        $exp = time() + (60 * 60 * 24);
-        $jwtPayload = [      
-            "hash" => $user['hash'],
-            "email" => $user['email'],
-            "exp" => $exp
-              ];
-        $user['jwt'] = createJWT($jwtPayload);
-        return json_encode($user);
+            unset($user['pass']);
+            $exp = time() + (60 * 60 * 24);
+            $jwtPayload = [      
+                "hash" => $user['hash'],
+                "email" => $user['email'],
+                "exp" => $exp
+                ];
+            $user['jwt'] = createJWT($jwtPayload);
+            return json_encode($user);
         }
     }
 });
@@ -61,14 +60,12 @@ $app->post('/forgotPasswd', function (Request $request, Response $response, arra
 });
 
 $app->post('/checkUser', function (Request $request, Response $response, array $args) {
-    if ($request->hasHeader('Authorization')) {
-        // Do something
-        return json_encode(['check token'=>'needed']);
+    if ($result = isAuthorised($request)) {
+        
     } else {
-        return json_encode(['token required'=>'error']);
+        $error = $result;
+        return $this->response->withStatus(403)->withHeader('Content-type', 'application/json')->withJson(array('error' => $error));
     }
-    // Render index view
-
 });
 
 $app->post('/getKey', function (Request $request, Response $response, array $args) {
@@ -89,7 +86,13 @@ $app->post('/updatePasswd', function (Request $request, Response $response, arra
     return 'updatePasswd';
 });
 
-$app->post('/updateInfo', function (Request $request, Response $response, array $args) {
+$app->post('/updatePersonalInfo', function (Request $request, Response $response, array $args) {
+
+    // Render index view
+    return 'updateInfo';
+});
+
+$app->post('/updateTLInfo', function (Request $request, Response $response, array $args) {
 
     // Render index view
     return 'updateInfo';
