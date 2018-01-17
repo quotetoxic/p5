@@ -62,7 +62,7 @@ $app->post('/forgotPasswd', function (Request $request, Response $response, arra
 $app->post('/checkUser', function (Request $request, Response $response, array $args) {
     $result = isAuthorised($request);
     echo $result;
-    if ($result == true) {
+    if ($result == "OK") {
         echo "Token ok";
     } else {
         $error = $result;
