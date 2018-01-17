@@ -23,12 +23,12 @@ $app->post('/login', function (Request $request, Response $response, array $args
     require_once 'dbconnect.php';
     $query = 'SELECT * FROM users WHERE email="'.$data['email'].'" AND pass="'.$data['passwd'].'"';
     $result = $mysqli->query($query);
-    echo json_encode($result);
-    if ($result->num_rows === 0) {
-        return json_encode(['logged'=>'in']);
-    } else {
+
+    if ($result->num_rows === null) {
         $error = "Incorrect login/password! Please, try again...";
         return $this->response->withStatus(403)->withHeader('Content-type', 'application/json')->withJson(array('error' => $error));
+    } else {
+        return json_encode(['logged'=>'in']);
     }
 });
 
