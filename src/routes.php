@@ -62,7 +62,7 @@ $app->post('/forgotPasswd', function (Request $request, Response $response, arra
 $app->post('/checkUser', function (Request $request, Response $response, array $args) {
     $result = isAuthorised($request);
     if ($result == "OK") {
-        echo "Token ok";
+        $data = $request->getParsedBody();
     } else {
         $error = $result;
         return $this->response->withStatus(403)->withHeader('Content-type', 'application/json')->withJson(array('error' => $error));
@@ -94,8 +94,13 @@ $app->post('/updatePersonalInfo', function (Request $request, Response $response
 });
 
 $app->post('/updateTLInfo', function (Request $request, Response $response, array $args) {
-
-    // Render index view
-    return 'updateInfo';
+    $result = isAuthorised($request);
+    if ($result == "OK") {
+        $data = $request->getParsedBody();
+        return $data['email'].' - '.$data['tl_id'];
+    } else {
+        $error = $result;
+        return $this->response->withStatus(403)->withHeader('Content-type', 'application/json')->withJson(array('error' => $error));
+    }
 });
 
