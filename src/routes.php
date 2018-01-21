@@ -105,12 +105,13 @@ $app->post('/updateTLInfo', function (Request $request, Response $response, arra
     if ($result == "OK") {
         $data = $request->getParsedBody();
         $query = 'UPDATE users SET tl_id='.intval($data['tl_id']).' WHERE email="'.$data['email'].'"';
-        $result = $mysqli->query($query);
-        if ($result) {
-            return $this->response->withStatus(200)->withHeader('Content-type', 'application/json')->withJson(array('OK' => 'updated'));
-        } else {
-            return $this->response->withStatus(403)->withHeader('Content-type', 'application/json')->withJson(array('error' => 'server error'));
-        }
+        echo $query;
+        // $result = $mysqli->query($query);
+        // if ($result) {
+        //     return $this->response->withStatus(200)->withHeader('Content-type', 'application/json')->withJson(array('OK' => 'updated'));
+        // } else {
+        //     return $this->response->withStatus(403)->withHeader('Content-type', 'application/json')->withJson(array('error' => 'server error'));
+        // }
     } else {
         $error = $result;
         return $this->response->withStatus(403)->withHeader('Content-type', 'application/json')->withJson(array('error' => $error));
