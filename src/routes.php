@@ -62,6 +62,7 @@ $app->post('/forgotPasswd', function (Request $request, Response $response, arra
 $app->post('/checkUser', function (Request $request, Response $response, array $args) {
     $result = isAuthorised($request);
     if ($result == "OK") {
+        require_once 'dbconnect.php';
         $data = $request->getParsedBody();
         $query = 'SELECT id, email FROM users WHERE email="'.$data['email'].'"';
         $result = $mysqli->query($query);
@@ -103,15 +104,15 @@ $app->post('/updatePersonalInfo', function (Request $request, Response $response
 $app->post('/updateTLInfo', function (Request $request, Response $response, array $args) {
     $result = isAuthorised($request);
     if ($result == "OK") {
+        require_once 'dbconnect.php';
         $data = $request->getParsedBody();
         $query = 'UPDATE users SET tl_id='.intval($data['tl_id']).' WHERE email="'.$data['email'].'"';
-        echo $query;
-        // $result = $mysqli->query($query);
-        // if ($result) {
-        //     return $this->response->withStatus(200)->withHeader('Content-type', 'application/json')->withJson(array('OK' => 'updated'));
-        // } else {
-        //     return $this->response->withStatus(403)->withHeader('Content-type', 'application/json')->withJson(array('error' => 'server error'));
-        // }
+        $result = $mysqli->query($query);
+        if ($result) {
+            return $this->response->withStatus(200)->withHeader('Content-type', 'application/json')->withJson(array('OK' => 'updated'));
+        } else {
+            return $this->response->withStatus(403)->withHeader('Content-type', 'application/json')->withJson(array('error' => 'server error'));
+        }
     } else {
         $error = $result;
         return $this->response->withStatus(403)->withHeader('Content-type', 'application/json')->withJson(array('error' => $error));
