@@ -6,7 +6,6 @@ use Slim\Http\Response;
 include 'functions.php';
 
 // Routes
-
 $app->post('/login', function (Request $request, Response $response, array $args) {
     $data = $request->getParsedBody();
 
@@ -49,6 +48,22 @@ $app->post('/login', function (Request $request, Response $response, array $args
 $app->post('/register', function (Request $request, Response $response, array $args) {
 
     // Render index view
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     return 'register';
 });
 
@@ -56,6 +71,19 @@ $app->post('/forgotPasswd', function (Request $request, Response $response, arra
 
     // Render index view
     return 'forgot';
+
+
+
+
+
+
+
+
+
+
+
+
+
 });
 
 $app->post('/checkUser', function (Request $request, Response $response, array $args) {
@@ -76,29 +104,6 @@ $app->post('/checkUser', function (Request $request, Response $response, array $
     }
 });
 
-$app->post('/getKey', function (Request $request, Response $response, array $args) {
-
-    // Render index view
-    return 'getKey';
-});
-
-$app->post('/setKey', function (Request $request, Response $response, array $args) {
-
-    // Render index view
-    return 'setKey';
-});
-
-$app->post('/updatePasswd', function (Request $request, Response $response, array $args) {
-
-    // Render index view
-    return 'updatePasswd';
-});
-
-$app->post('/updatePersonalInfo', function (Request $request, Response $response, array $args) {
-
-    // Render index view
-    return 'updateInfo';
-});
 
 $app->post('/updateTLInfo', function (Request $request, Response $response, array $args) {
     $result = isAuthorised($request);
@@ -116,5 +121,90 @@ $app->post('/updateTLInfo', function (Request $request, Response $response, arra
         $error = $result;
         return $this->response->withStatus(403)->withHeader('Content-type', 'application/json')->withJson(array('error' => $error));
     }
+});
+
+$app->post('/getKey', function (Request $request, Response $response, array $args) {
+
+    // Render index view
+    return 'getKey';
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+});
+
+$app->post('/setKey', function (Request $request, Response $response, array $args) {
+
+    // Render index view
+    return 'setKey';
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+});
+
+$app->post('/updatePasswd', function (Request $request, Response $response, array $args) {
+
+    // Render index view
+    return 'updatePasswd';
+
+
+
+
+
+
+
+
+
+
+
+
+});
+
+$app->post('/updatePersonalInfo', function (Request $request, Response $response, array $args) {
+
+    // Render index view
+    return 'updateInfo';
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 });
 
