@@ -37,7 +37,6 @@ $app->post('/login', function (Request $request, Response $response, array $args
             unset($user['pass']);
             $exp = intval(time()) + (60*60*24);
             $jwtPayload = [      
-                "hash" => $user['hash'],
                 "email" => $user['email'],
                 "exp" => $exp
                 ];
@@ -64,7 +63,7 @@ $app->post('/checkUser', function (Request $request, Response $response, array $
     if ($result == "OK") {
         require_once 'dbconnect.php';
         $data = $request->getParsedBody();
-        $query = 'SELECT id, email FROM users WHERE email="'.$data['email'].'"';
+        $query = 'SELECT id, tl_id FROM users WHERE tl_id='.intval($data['tl_id']);
         $result = $mysqli->query($query);
         if ($result->num_rows == null) {
             return $this->response->withStatus(403)->withHeader('Content-type', 'application/json')->withJson(array('error' => 'not exist'));
